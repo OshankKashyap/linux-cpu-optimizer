@@ -1,0 +1,5 @@
+altgraph==0.17.2
+psutil==5.9.1
+pyinstaller==5.2
+pyinstaller-hooks-contrib==2022.8
+subprocess32==3.5.4
