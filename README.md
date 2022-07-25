@@ -14,7 +14,7 @@ cd linux-cpu-optimizer
 python3 -m venv env
 
 # download the libraries and pyinstaller to create an executable
-pip3 install psutil pyinstaller subprocess32
+pip3 install -r requirements.txt
 
 # NOTE: Make sure that you have all the build tools installed
 # create an executable
