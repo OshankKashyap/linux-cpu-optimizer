@@ -17,6 +17,7 @@ python3 -m venv env
 pip3 install -r requirements.txt
 
 # NOTE: Make sure that you have all the build tools installed
+sudo apt install build-essential 
 # create an executable
 pyinstaller --onefile --name optimizer main.py
 
