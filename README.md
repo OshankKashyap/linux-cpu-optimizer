@@ -1,9 +1,9 @@
 # CPU OPTIMIZER FOR LINUX
-This is a simple cpu optmizer for linux written in the Python language. It is only intended for Intel based systems utilizing the intel pstate driver. This script utilizes the [pstate-frequency](https://github.com/pyamsoft/pstate-frequency) to change power modes automatically.
+This straightforward Linux CPU optimizer was created in Python. Only Intel-based systems using the intel pstate driver are meant for it. To switch between power modes automatically, this script makes use of the [pstate-frequency](https://github.com/pyamsoft/pstate-frequency) driver.
 
-Currently, it supports three power modes, powersave, balanced and performance. The powermode automatically changes to performance when the device is on charging and automatically changes the powermodes when not connected to the power source. If the cpu utilization is below or equal to 15%, it switches to powersave, if the usage is between 15% and 25%, it switches to balanced mode and if the usage is above 25%, it switches to the performance mode. If the battery of device is less than 25%, it is set to powersave mode.
+Powersave, balanced, and performance are the three power modes that are currently supported. When the device is charging, the power mode automatically switches to performance, and when it is not attached to a power source, it does the same. It switches to power save mode if the CPU utilization is less than or equal to 15%, switches to balanced mode if the CPU utilization is between 15% and 25%, and switches to performance mode if the CPU utilization is greater than 25%. The device is set to power save mode if the battery life is less than 25%.
 
-You can check the official documentation of [pstate-frequency](https://github.com/pyamsoft/pstate-frequency) to setup. To setup this script follow the instructions below:
+To set up, you can refer to the [pstate-frequency](https://github.com/pyamsoft/pstate-frequency) official documentation. Follow the steps below to set up this script:
 
 ## BUILD
 ```
@@ -30,7 +30,7 @@ sudo cp -r optimizer /usr
 sudo touch /lib/systemd/system/cpu-optimizer.service
 ```
 
-Now open the cpu-optimzer.service file with your text editor as root and paste the given code into it.
+Paste the provided code into the cpu-optimizer.service file after opening it in a text editor as root.
 ```
 [Unit]
 Description=python based cpu optimizer
@@ -44,13 +44,13 @@ Restart=on-failure
 WantedBy=multi-user.target
 ```
 
-Now the service is created. Now, you only need to enable and start it.
+The service has now been built. You only need to enable and start it at this point.
 ```
 sudo systemctl enable cpu-optimizer.service
 sudo systemctl start cpu-optimzer.service
 ```
 
-To check the status of cpu-optimzer, enter:
+Enter the command to check the status of cpu-optimizer.
 ```
 sudo systemctl status cpu-optimizer.service
 ```
