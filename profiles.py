@@ -1,29 +1,35 @@
 # Module to contain power profiles
 
 import rw
-import psutil
 
 
-class Main:
-    def __init__(self):
-        cpuFreq = psutil.cpu_freq()
-        self.min = int(cpuFreq.min * 1000000)
-        self.max = int(cpuFreq.max * 1000000)
-
+class Intel:
     def powersave(self):
         # powersave profile
+        rw.WriteToFile("CPU_MIN_PERF_ON_AC", 10, True)
+        rw.WriteToFile("CPU_MAX_PERF_ON_AC", 100, True)
+        rw.WriteToFile("CPU_MIN_PERF_ON_BAT", 10, True)
+        rw.WriteToFile("CPU_MAX_PERF_ON_BAT", 37, True)
+        rw.WriteToFile("CPU_BOOST_ON_AC", 0, True)
+        rw.WriteToFile("CPU_BOOST_ON_BAT", 0, True)
+        rw.WriteToFile("CPU_SCALING_GOVERNOR_ON_AC", "powersave", True)
+        rw.WriteToFile("CPU_SCALING_GOVERNOR_ON_BAT", "powersave", True)
 
-        # reduce maximum cpu frequency
-        self.max -= int(self.max * 0.585)
+        rw.restartTLP()
 
-        # write chagnes to config file
-        # cpu frequencies will be set to maximum if the device is on AC
-        rw.WriteToFile("CPU_SCALING_MIN_FREQ_ON_AC", self.min, True)
-        rw.WriteToFile("CPU_SCALING_MAX_FREQ_ON_AC", self.max, True)
-        rw.WriteToFile("CPU_SCALING_MIN_FREQ_ON_BAT", self.min, True)
-        rw.WriteToFile("CPU_SCALING_MAX_FREQ_ON_BAT", self.max, True)
+    def balanced(self):
+        # balanced profile
+
+        rw.WriteToFile("CPU_MIN_PERF_ON_AC", 10, True)
+        rw.WriteToFile("CPU_MAX_PERF_ON_AC", 100, True)
+        rw.WriteToFile("CPU_MIN_PERF_ON_BAT", 10, True)
+        rw.WriteToFile("CPU_MAX_PERF_ON_BAT", 100, True)
+        rw.WriteToFile("CPU_BOOST_ON_AC", 1, True)
+        rw.WriteToFile("CPU_BOOST_ON_BAT", 1, True)
+        rw.WriteToFile("CPU_SCALING_GOVERNOR_ON_AC", "powersave", True)
+        rw.WriteToFile("CPU_SCALING_GOVERNOR_ON_BAT", "powersave", True)
 
         rw.restartTLP()
 
 
-profiles = Main()
+intelProfiles = Intel()
