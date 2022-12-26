@@ -1,5 +1,7 @@
 # Module to read and write to TLP config files
 
+import subprocess
+
 
 def WriteToFile(attribute, value, status):
     # function to read and write to config file
@@ -25,3 +27,6 @@ def WriteToFile(attribute, value, status):
         with open(FILE, "w") as file:
             for x in contents:
                 file.write(x)
+    
+    # restart TLP
+    subprocess.call("tlp start", shell=True)
