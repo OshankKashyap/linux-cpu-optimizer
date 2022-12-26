@@ -27,6 +27,7 @@ def WriteToFile(attribute, value, status):
         with open(FILE, "w") as file:
             for x in contents:
                 file.write(x)
-    
-    # restart TLP
+
+
+def restartTLP():
     subprocess.call("tlp start", shell=True)
