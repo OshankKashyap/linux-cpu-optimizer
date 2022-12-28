@@ -1,11 +1,10 @@
-# Module to contain power profiles
-
 import rw
 
 
 class Intel:
     def powersave(self):
         # powersave profile
+        
         rw.WriteToFile("CPU_MIN_PERF_ON_AC", 10, True)
         rw.WriteToFile("CPU_MAX_PERF_ON_AC", 100, True)
         rw.WriteToFile("CPU_MIN_PERF_ON_BAT", 10, True)

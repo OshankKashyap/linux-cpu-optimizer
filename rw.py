@@ -1,5 +1,3 @@
-# Module to read and write to TLP config files
-
 import subprocess
 
 
