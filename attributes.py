@@ -50,24 +50,22 @@ class CPU:
         and avoid changing the profile if both are same and changes if the previous profile is different'''
         if self.usage < 15:
             if self.lastProfile == PROFILES[0]:
-                pass
+                rw.restartTLP()
             else:
                 profiles.intelProfiles.powersave()
                 self.lastProfile = PROFILES[0]
         elif 15 < self.usage < 25:
             if self.lastProfile == PROFILES[1]:
-                pass
+                rw.restartTLP()
             else:
                 profiles.intelProfiles.balanced()
                 self.lastProfile = PROFILES[1]  
         elif self.usage > 25:
             if self.lastProfile == PROFILES[2]:
-                pass
+                rw.restartTLP()
             else:
                 profiles.intelProfiles.performance()
                 self.lastProfile = PROFILES[2]
-        
-        print(self.lastProfile)
 
 
 bat = Battery()
