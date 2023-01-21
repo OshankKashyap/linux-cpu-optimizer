@@ -50,6 +50,9 @@ Activate and start the service.
 ```
 sudo systemctl enable cpu-optimizer.service
 sudo systemctl start cpu-optimizer.service
+
+# Activate TLP
+sudo systemctl enable tlp.service
 ```
 
 To find out the Cpu Optimizer's current status, use the command `sudo systemctl status cpu-optimizer.service` It should resemble to this image:
