@@ -2,6 +2,7 @@ import os
 import rw
 import psutil
 import profiles
+from pathlib import Path
 
 
 class Battery:
@@ -66,6 +67,16 @@ class CPU:
             else:
                 profiles.intelProfiles.performance()
                 self.lastProfile = PROFILES[2]
+    
+    def getCpuFreq(self):
+        min_path = Path("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq")
+        max_path = Path("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq")
+
+        with open(FILE, "r") as fileObj:
+            content = fileObj.readlines()
+
+            for x in content:
+                print(x.strip())
 
 
 bat = Battery()
