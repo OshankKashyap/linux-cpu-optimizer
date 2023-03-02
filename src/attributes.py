@@ -69,14 +69,21 @@ class CPU:
                 self.lastProfile = PROFILES[2]
     
     def getCpuFreq(self):
-        min_path = Path("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq")
-        max_path = Path("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq")
+        minFreq = None
+        maxFreq = None
+        minPath = Path("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq")
+        maxPath = Path("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq")
 
-        with open(FILE, "r") as fileObj:
-            content = fileObj.readlines()
-
-            for x in content:
-                print(x.strip())
+        with open(minPath, "r") as fileObj:
+            x = fileObj.readline().strip()
+            minFreq = int(x)
+        
+        with open(maxPath, "r") as fileObj:
+            x = fileObj.readline().strip()
+            maxFreq = int(x)
+        
+        print(minFreq)
+        print(maxFreq)
 
 
 bat = Battery()
