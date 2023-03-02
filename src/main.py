@@ -29,6 +29,11 @@ def checkConfig():
             "",
             "CPU_SCALING_GOVERNOR_ON_AC=powersave",
             "CPU_SCALING_GOVERNOR_ON_BAT=powersave",
+            "",
+            "CPU_SCALING_MIN_FREQ_ON_AC=400000",
+            "CPU_SCALING_MAX_FREQ_ON_AC=3900000",
+            "CPU_SCALING_MIN_FREQ_ON_BAT=400000",
+            "CPU_SCALING_MAX_FREQ_ON_BAT=3900000"
         ]
 
         with open(path, "w") as fileObj:
