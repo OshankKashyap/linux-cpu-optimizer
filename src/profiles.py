@@ -3,11 +3,6 @@ import psutil
 
 
 class Intel:
-    def __init__(self):
-        cpuFreq = psutil.cpu_freq()
-        self.cpu_min = int(cpuFreq.min * 1000)
-        self.cpu_max = int(cpuFreq.max * 1000)
-
     def powersave(self):
         # powersave profile
 
