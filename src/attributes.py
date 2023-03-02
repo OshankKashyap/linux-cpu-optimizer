@@ -37,6 +37,7 @@ class Battery:
 class CPU:
     def __init__(self):
         self.lastProfile = None
+        self.getCpuFreq()
 
     def getUsage(self):
         # method to get cpu usage
@@ -65,25 +66,24 @@ class CPU:
             if self.lastProfile == PROFILES[2]:
                 rw.restartTLP()
             else:
-                profiles.intelProfiles.performance()
+                profiles.intelProfiles.performance(self.minFreq, self.maxFreq)
                 self.lastProfile = PROFILES[2]
     
     def getCpuFreq(self):
-        minFreq = None
-        maxFreq = None
+        # method to get the minimum and maximum frequency of the cpu
+        
+        self.minFreq = None
+        self.maxFreq = None
         minPath = Path("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq")
         maxPath = Path("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq")
 
         with open(minPath, "r") as fileObj:
             x = fileObj.readline().strip()
-            minFreq = int(x)
+            self.minFreq = int(x)
         
         with open(maxPath, "r") as fileObj:
             x = fileObj.readline().strip()
-            maxFreq = int(x)
-        
-        print(minFreq)
-        print(maxFreq)
+            self.maxFreq = int(x)
 
 
 bat = Battery()
