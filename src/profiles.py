@@ -39,10 +39,10 @@ class Intel:
     def performance(self, cpuMin, cpuMax):
         # performance profile
 
-        rw.WriteToFile("CPU_SCALING_MIN_FREQ_ON_AC", self.cpu_min, True)
-        rw.WriteToFile("CPU_SCALING_MAX_FREQ_ON_AC", self.cpu_max, True)
-        rw.WriteToFile("CPU_SCALING_MIN_FREQ_ON_BAT", self.cpu_min, True)
-        rw.WriteToFile("CPU_SCALING_MAX_FREQ_ON_BAT", self.cpu_max, True)
+        rw.WriteToFile("CPU_SCALING_MIN_FREQ_ON_AC", cpuMin, True)
+        rw.WriteToFile("CPU_SCALING_MAX_FREQ_ON_AC", cpuMax, True)
+        rw.WriteToFile("CPU_SCALING_MIN_FREQ_ON_BAT", cpuMin, True)
+        rw.WriteToFile("CPU_SCALING_MAX_FREQ_ON_BAT", cpuMax, True)
         rw.WriteToFile("CPU_MIN_PERF_ON_AC", 10, False)
         rw.WriteToFile("CPU_MAX_PERF_ON_AC", 100, False)
         rw.WriteToFile("CPU_MIN_PERF_ON_BAT", 10, False)
