@@ -28,11 +28,6 @@ class Battery:
         # method to check the battery percentage
         self.percentage = round(psutil.sensors_battery().percent)
 
-    def setProfile(self):
-        # method to set power profile based on different battery levels
-        profile = "powersave" if self.percentage > 25 else "default"
-        return profile
-
 
 class CPU:
     def __init__(self):
