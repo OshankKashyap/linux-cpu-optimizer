@@ -24,15 +24,19 @@ class Battery:
 
         rw.restartTLP()
 
-    def checkPercentage(self): self.percentage = round(psutil.sensors_battery().percent)
+    def checkPercentage(self):
+        # method to check the battery percentage
+        self.percentage = round(psutil.sensors_battery().percent)
+
 
 class CPU:
     def __init__(self):
-        self.intelProfiles = profiles.Intel()
         self.lastProfile = None
         self.getCpuFreq()
 
-    def getUsage(self): self.usage = psutil.cpu_percent()
+    def getUsage(self):
+        # method to get cpu usage
+        self.usage = psutil.cpu_percent()
 
     def setProfile(self):
         # method to set different profiles based on CPU utilization
@@ -43,21 +47,21 @@ class CPU:
         and avoid changing the profile if both are same and changes if the previous profile is different'''
         if self.usage < 15:
             if self.lastProfile == PROFILES[0]:
-                pass
+                rw.restartTLP()
             else:
-                self.intelProfiles.powersave()
+                profiles.intelProfiles.powersave()
                 self.lastProfile = PROFILES[0]
         elif 15 < self.usage < 25:
             if self.lastProfile == PROFILES[1]:
-                pass
+                rw.restartTLP()
             else:
-                self.intelProfiles.balanced()
+                profiles.intelProfiles.balanced()
                 self.lastProfile = PROFILES[1]  
         elif self.usage > 25:
             if self.lastProfile == PROFILES[2]:
-                pass
+                rw.restartTLP()
             else:
-                self.intelProfiles.performance(self.minFreq, self.maxFreq)
+                profiles.intelProfiles.performance(self.minFreq, self.maxFreq)
                 self.lastProfile = PROFILES[2]
     
     def getCpuFreq(self):
@@ -75,3 +79,7 @@ class CPU:
         with open(maxPath, "r") as fileObj:
             x = fileObj.readline().strip()
             self.maxFreq = int(x)
+
+
+bat = Battery()
+cpu = CPU()
