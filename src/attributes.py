@@ -26,7 +26,7 @@ class Battery:
 
     def checkPercentage(self):
         # method to check the battery percentage
-        self.percentage = round(psutil.sensors_battery().percent)
+        return round(psutil.sensors_battery().percent)
 
     def isPlugged(self):
         return psutil.sensors_battery().power_plugged
