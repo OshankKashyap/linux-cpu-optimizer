@@ -28,45 +28,48 @@ class Battery:
         # method to check the battery percentage
         self.percentage = round(psutil.sensors_battery().percent)
 
+    def isPlugged(self):
+        return psutil.sensors_battery().power_plugged
+
 
 class CPU:
     def __init__(self):
+        self.intelProfiles = profiles.Intel()
         self.lastProfile = None
         self.getCpuFreq()
 
     def getUsage(self):
-        # method to get cpu usage
-        self.usage = psutil.cpu_percent()
+        return int(psutil.cpu_percent())
 
-    def setProfile(self):
+    def setProfile(self, cpuUsage):
         # method to set different profiles based on CPU utilization
         PROFILES = ["powersave", "balanced", "performance"]
 
-        '''to avoid changing the profile everytime this functions runs
+        """to avoid changing the profile everytime this functions runs
         the function will check if the current profile needed to be changes is same as the previous profile
-        and avoid changing the profile if both are same and changes if the previous profile is different'''
-        if self.usage < 15:
+        and avoid changing the profile if both are same and changes if the previous profile is different"""
+        if cpuUsage < 15:
             if self.lastProfile == PROFILES[0]:
                 rw.restartTLP()
             else:
-                profiles.intelProfiles.powersave()
+                self.intelProfiles.powersave()
                 self.lastProfile = PROFILES[0]
-        elif 15 < self.usage < 25:
+        elif 15 < cpuUsage < 25:
             if self.lastProfile == PROFILES[1]:
                 rw.restartTLP()
             else:
-                profiles.intelProfiles.balanced()
-                self.lastProfile = PROFILES[1]  
-        elif self.usage > 25:
+                self.intelProfiles.balanced()
+                self.lastProfile = PROFILES[1]
+        elif cpuUsage > 25:
             if self.lastProfile == PROFILES[2]:
                 rw.restartTLP()
             else:
-                profiles.intelProfiles.performance(self.minFreq, self.maxFreq)
+                self.intelProfiles.performance(self.minFreq, self.maxFreq)
                 self.lastProfile = PROFILES[2]
-    
+
     def getCpuFreq(self):
         # method to get the minimum and maximum frequency of the cpu
-        
+
         self.minFreq = None
         self.maxFreq = None
         minPath = Path("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq")
@@ -75,11 +78,7 @@ class CPU:
         with open(minPath, "r") as fileObj:
             x = fileObj.readline().strip()
             self.minFreq = int(x)
-        
+
         with open(maxPath, "r") as fileObj:
             x = fileObj.readline().strip()
             self.maxFreq = int(x)
-
-
-bat = Battery()
-cpu = CPU()

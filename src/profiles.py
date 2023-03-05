@@ -47,5 +47,3 @@ class Intel:
         rw.WriteToFile("CPU_SCALING_GOVERNOR_ON_BAT", "performance", True)
 
         rw.restartTLP()
-
-intelProfiles = Intel()
