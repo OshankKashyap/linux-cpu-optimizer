@@ -1,5 +1,4 @@
 import rw
-import psutil
 
 
 class Intel:
