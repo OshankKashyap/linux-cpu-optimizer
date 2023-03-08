@@ -43,6 +43,7 @@ class CPU:
 
     def setProfile(self):
         # method to set different profiles based on CPU utilization
+        self.getUsage()
 
         """to avoid changing the profile everytime this functions runs
         the function will check if the current profile needed to be changes is same as the previous profile
