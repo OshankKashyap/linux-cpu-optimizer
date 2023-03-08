@@ -1,7 +1,11 @@
 import time
+import profiles
 import platform
 import attributes
 from pathlib import Path
+
+bat = attributes.Battery()
+cpu = attributes.CPU()
 
 
 def checkConfig():
@@ -33,7 +37,7 @@ def checkConfig():
             "CPU_SCALING_MIN_FREQ_ON_AC=400000",
             "CPU_SCALING_MAX_FREQ_ON_AC=3900000",
             "CPU_SCALING_MIN_FREQ_ON_BAT=400000",
-            "CPU_SCALING_MAX_FREQ_ON_BAT=3900000"
+            "CPU_SCALING_MAX_FREQ_ON_BAT=3900000",
         ]
 
         with open(path, "w") as fileObj:
@@ -41,15 +45,40 @@ def checkConfig():
                 fileObj.write(f"{x}\n")
 
 
+def main():
+    # main function to handle power states based on cpu usage and battery level
+
+    while True:
+        plugged = bat.isPlugged()
+        batteryPercent = bat.checkPercentage()
+
+        # set the powermode to powersave if the battery is lower than 25 percentage and not plugged
+        if batteryPercent < 25 and not plugged:
+            profiles.Intel.powersave()
+
+            # keep on updating the battery percentage until it is greater than 25
+            while batteryPercent < 25 and not plugged:
+                batteryPercent = bat.checkPercentage()
+                plugged = bat.isPlugged()
+                time.sleep(0.5)
+
+        # if the battery is not on charging change the power modes automatically
+        # else set the powermode to performance
+        if plugged == False:
+            cpu.setProfile()
+        else:
+            profiles.Intel().performance(cpu.minFreq, cpu.maxFreq)
+
+            while plugged == True:
+                plugged = bat.isPlugged()
+                time.sleep(0.5)
+
+
 if __name__ == "__main__":
+    checkConfig()
     PROCESSOR = platform.processor()
 
-    checkConfig()
-    attributes.bat.checkThresholdSupport()
-    attributes.bat.checkPercentage()
+    bat.checkThresholdSupport()
 
     if "x86_64" in PROCESSOR or "Intel" in PROCESSOR:
-        while True:
-            attributes.cpu.getUsage()
-            attributes.cpu.setProfile()
-            time.sleep(1)
+        main()
