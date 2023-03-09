@@ -4,7 +4,7 @@ import subprocess
 def WriteToFile(attribute, value, status):
     # function to read and write to config file
 
-    FILE = "/etc/tlp.d/00-test.conf"
+    FILE = "/etc/tlp.d/00-tlp.conf"
 
     with open(FILE, "r") as fileObj:
         contents = fileObj.readlines()
