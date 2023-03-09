@@ -12,7 +12,7 @@ def checkConfig():
     # function to check whether the configuration file for TLP exists
     # if not create a new file
 
-    path = Path("/etc/tlp.d/00-test.conf")
+    path = Path("/etc/tlp.d/00-tlp.conf")
     if not path.exists():
         contents = [
             "# Test File",
