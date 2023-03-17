@@ -1,6 +1,5 @@
 import time
 import profiles
-import platform
 import attributes
 from pathlib import Path
 
@@ -34,10 +33,10 @@ def checkConfig():
             "CPU_SCALING_GOVERNOR_ON_AC=powersave",
             "CPU_SCALING_GOVERNOR_ON_BAT=powersave",
             "",
-            "CPU_SCALING_MIN_FREQ_ON_AC=400000",
-            "CPU_SCALING_MAX_FREQ_ON_AC=3900000",
-            "CPU_SCALING_MIN_FREQ_ON_BAT=400000",
-            "CPU_SCALING_MAX_FREQ_ON_BAT=3900000",
+            f"CPU_SCALING_MIN_FREQ_ON_AC={cpu.minFreq}",
+            f"CPU_SCALING_MAX_FREQ_ON_AC={cpu.maxFreq}",
+            f"CPU_SCALING_MIN_FREQ_ON_BAT={cpu.minFreq}",
+            f"CPU_SCALING_MAX_FREQ_ON_BAT={cpu.maxFreq}",
         ]
 
         with open(path, "w") as fileObj:
@@ -76,9 +75,6 @@ def main():
 
 if __name__ == "__main__":
     checkConfig()
-    PROCESSOR = platform.processor()
-
-    bat.checkThresholdSupport()
 
     if cpu.getManufacturer() == "Intel(R)":
         main()

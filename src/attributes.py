@@ -10,14 +10,10 @@ def getLidStat():
     # function to check whether the LID of laptop is open of closed
 
     path = Path("/proc/acpi/button/lid/LID/state")
-
-    status = None
     if os.path.exists(path):
-        with open(path, "r") as fileObj:
-            content = fileObj.readline().strip()
-            status = content.split(" ")[-1]
+        return rw.readFile(path)[0].split(" ")[-1].strip()
 
-    return status
+    return None
 
 
 class Battery:
@@ -53,29 +49,31 @@ class Battery:
 
 class CPU:
     def __init__(self):
-        self.intelProfiles = profiles.Intel()
         self.lastProfile = None
+        self.intelProfiles = profiles.Intel()
+        self.paths = {
+            "min_path": Path("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq"),
+            "max_path": Path("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq"),
+            "cpu_info": Path("/proc/cpuinfo"),
+        }
         self.getCpuFreq()
-
-    def getUsage(self):
-        self.cpuUsage = psutil.cpu_percent(interval=0.5)
 
     def setProfile(self):
         # method to set different profiles based on CPU utilization
-        self.getUsage()
 
         """to avoid changing the profile everytime this functions runs
         the function will check if the current profile needed to be changes is same as the previous profile
         and avoid changing the profile if both are same and changes if the previous profile is different
         """
 
-        if self.cpuUsage < 15:
+        cpuUsage = psutil.cpu_percent(interval=0.5)
+        if cpuUsage < 15:
             if self.lastProfile == "powersave":
                 pass
             else:
                 self.intelProfiles.powersave()
                 self.lastProfile = "powersave"
-        elif 15 < self.cpuUsage < 25:
+        elif 15 < cpuUsage < 25:
             if self.lastProfile == "balanced":
                 pass
             else:
@@ -91,28 +89,13 @@ class CPU:
     def getCpuFreq(self):
         # method to get the minimum and maximum frequency of the cpu
 
-        self.minFreq = None
-        self.maxFreq = None
-        minPath = Path("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq")
-        maxPath = Path("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq")
-
-        with open(minPath, "r") as fileObj:
-            x = fileObj.readline().strip()
-            self.minFreq = int(x)
-
-        with open(maxPath, "r") as fileObj:
-            x = fileObj.readline().strip()
-            self.maxFreq = int(x)
+        self.minFreq = int(rw.readFile(self.paths["min_path"])[0].strip())
+        self.maxFreq = int(rw.readFile(self.paths["max_path"])[0].strip())
 
     def getManufacturer(self):
         # method to get the manufactuer of CPU
 
-        path = Path("/proc/cpuinfo")
-        manufacturer = None
+        if os.path.exists(self.paths["cpu_info"]):
+            return rw.readFile(self.paths["cpu_info"])[4].split(" ")[2]
 
-        if os.path.exists(path):
-            with open(path, "r") as fileObj:
-                content = fileObj.readlines()
-                manufacturer = content[4].split(" ")[2]
-
-        return manufacturer
+        return None
