@@ -5,6 +5,20 @@ import profiles
 from pathlib import Path
 
 
+def getLidStat():
+    # function to check whether the LID of laptop is open of closed
+
+    path = Path("/proc/acpi/button/lid/LID/state")
+
+    status = None
+    if os.path.exists(path):
+        with open(path, "r") as fileObj:
+            content = fileObj.readline().strip()
+            status = content.split(" ")[-1]
+    
+    return status
+
+
 class Battery:
     def checkThresholdSupport(self):
         # check if the battery supports threshold charging and discarging
