@@ -80,5 +80,5 @@ if __name__ == "__main__":
 
     bat.checkThresholdSupport()
 
-    if "x86_64" in PROCESSOR or "Intel" in PROCESSOR:
+    if cpu.getManufacturer() == "Intel(R)":
         main()

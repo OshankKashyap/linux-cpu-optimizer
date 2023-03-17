@@ -16,7 +16,7 @@ def getLidStat():
         with open(path, "r") as fileObj:
             content = fileObj.readline().strip()
             status = content.split(" ")[-1]
-    
+
     return status
 
 
@@ -103,3 +103,16 @@ class CPU:
         with open(maxPath, "r") as fileObj:
             x = fileObj.readline().strip()
             self.maxFreq = int(x)
+
+    def getManufacturer(self):
+        # method to get the manufactuer of CPU
+
+        path = Path("/proc/cpuinfo")
+        manufacturer = None
+
+        if os.path.exists(path):
+            with open(path, "r") as fileObj:
+                content = fileObj.readlines()
+                manufacturer = content[4].split(" ")[2]
+
+        return manufacturer
