@@ -1,5 +1,6 @@
 import os
 import rw
+import sys
 import psutil
 import profiles
 from pathlib import Path
@@ -43,7 +44,11 @@ class Battery:
         return round(psutil.sensors_battery().percent)
 
     def isPlugged(self):
-        return psutil.sensors_battery().power_plugged
+        try:
+            return psutil.sensors_battery().power_plugged
+        except Exception:
+            print("Error: No Battery Found!")
+            sys.exit()
 
 
 class CPU:
