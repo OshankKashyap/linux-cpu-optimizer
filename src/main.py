@@ -1,5 +1,4 @@
-import time
-import profiles
+import handler
 import attributes
 from pathlib import Path
 
@@ -44,37 +43,10 @@ def checkConfig():
                 fileObj.write(f"{x}\n")
 
 
-def main():
-    # main function to handle power states based on cpu usage and battery level
-
-    while True:
-        plugged = bat.isPlugged()
-        batteryPercent = bat.checkPercentage()
-
-        # set the powermode to powersave if the battery is lower than 25 percentage and not plugged
-        if batteryPercent < 25 and not plugged:
-            profiles.Intel.powersave()
-
-            # keep on updating the battery percentage until it is greater than 25
-            while batteryPercent < 25 and not plugged:
-                batteryPercent = bat.checkPercentage()
-                plugged = bat.isPlugged()
-                time.sleep(0.5)
-
-        # if the battery is not on charging change the power modes automatically
-        # else set the powermode to performance
-        if plugged == False:
-            cpu.setProfile()
-        else:
-            profiles.Intel().performance(cpu.minFreq, cpu.maxFreq)
-
-            while plugged == True:
-                plugged = bat.isPlugged()
-                time.sleep(0.5)
-
-
 if __name__ == "__main__":
     checkConfig()
+    handle = handler.Handler()
 
     if cpu.getManufacturer() == "Intel(R)":
-        main()
+        while True:
+            cpu.setProfile(handle.checkParams())
