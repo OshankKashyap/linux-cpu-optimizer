@@ -1,5 +1,5 @@
 # CPU OPTIMIZER FOR LINUX
-This project is being shifted to use [TLP](https://github.com/linrunner/TLP).
+The Linux CPU Optimizer is a software application that adjusts CPU frequencies according to the CPU usage. It utilizes [TLP](https://github.com/linrunner/TLP) as its underlying framework for executing tasks. By employing this program on your desktop, you can enhance battery life. TLP is distinguished for its ability to maintain an optimal equilibrium between performance and power consumption.
 
 Due to hardware restrictions, I won't be offering support for AMD and other processors. I am unable to purchase a different device. I would really appreciate if someone could help out.
 
