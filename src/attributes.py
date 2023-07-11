@@ -45,7 +45,7 @@ class Battery:
         except Exception:
             print("Error: No Battery Found!")
             sys.exit()
-    
+
     def notPlugged():
         try:
             return not psutil.sensors_battery().power_plugged
@@ -65,7 +65,7 @@ class CPU:
         }
         self.getCpuFreq()
 
-    def setProfile(self):
+    def setProfile(self, mode):
         # method to set different profiles based on CPU utilization
 
         """to avoid changing the profile everytime this functions runs
@@ -74,24 +74,43 @@ class CPU:
         """
 
         cpuUsage = psutil.cpu_percent(interval=0.5)
-        if cpuUsage < 15:
-            if self.lastProfile == "powersave":
-                pass
+        if mode == "auto":
+            if cpuUsage < 15:
+                if self.lastProfile == "powersave":
+                    pass
+                else:
+                    self.intelProfiles.powersave()
+                    self.lastProfile = "powersave"
+            elif 15 < cpuUsage < 25:
+                if self.lastProfile == "balanced":
+                    pass
+                else:
+                    self.intelProfiles.balanced()
+                    self.lastProfile = "balanced"
             else:
-                self.intelProfiles.powersave()
-                self.lastProfile = "powersave"
-        elif 15 < cpuUsage < 25:
-            if self.lastProfile == "balanced":
-                pass
-            else:
-                self.intelProfiles.balanced()
-                self.lastProfile = "balanced"
-        else:
+                if self.lastProfile == "performance":
+                    pass
+                else:
+                    self.intelProfiles.performance(self.minFreq, self.maxFreq)
+                    self.lastProfile = "performance"
+        elif mode == "performance":
             if self.lastProfile == "performance":
                 pass
             else:
                 self.intelProfiles.performance(self.minFreq, self.maxFreq)
                 self.lastProfile = "performance"
+        elif mode == "balanced":
+            if self.lastProfile == "balanced":
+                pass
+            else:
+                self.intelProfiles.balanced()
+                self.lastProfile = "balanced"
+        elif mode == "powersave":
+            if self.lastProfile == "powersave":
+                pass
+            else:
+                self.intelProfiles.powersave()
+                self.lastProfile = "powersave"
 
     def getCpuFreq(self):
         # method to get the minimum and maximum frequency of the cpu
