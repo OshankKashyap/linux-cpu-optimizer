@@ -10,10 +10,10 @@ def getLidStat():
     # function to check whether the LID of laptop is open of closed
 
     path = Path("/proc/acpi/button/lid/LID/state")
-    if os.path.exists(path):
-        return rw.readFile(path)[0].split(" ")[-1].strip()
+    if os.path.exists(path) and rw.readFile(path)[0].split(" ")[-1].strip() == "closed":
+        return True
 
-    return None
+    return False
 
 
 class Battery:
@@ -42,6 +42,13 @@ class Battery:
     def isPlugged(self):
         try:
             return psutil.sensors_battery().power_plugged
+        except Exception:
+            print("Error: No Battery Found!")
+            sys.exit()
+    
+    def notPlugged():
+        try:
+            return not psutil.sensors_battery().power_plugged
         except Exception:
             print("Error: No Battery Found!")
             sys.exit()
