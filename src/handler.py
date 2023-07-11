@@ -14,19 +14,19 @@ class Handler:
     def __init__(self):
         self.mode = None
 
-    def main(self):
+    def checkParams(self):
         functions = [
             [attributes.getLidStat, "powersave"],
             [battery.isPlugged, "performance"],
-            [minBatteryLevel, "powersave"]
+            [minBatteryLevel, "powersave"],
             [battery.isPlugged, "auto"],
         ]
 
-        while True:
-            for func in functions:
-                if func[0]() == True:
-                    self.mode = func[1]
-                    break
-                
-                time.sleep(0.5)
-            print("")
+        for func in functions:
+            if func[0]() == True:
+                self.mode = func[1]
+                break
+
+            time.sleep(0.5)
+
+        return self.mode
